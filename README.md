@@ -32,7 +32,7 @@ bing = BingBong::Client.new do |config|
   config.account_id = 12345
   config.customer_id = 1337
   config.developer_token = 'BBD37VB98'
-  config.username = 'johndoe'
+  config.username = 'johndoe_sbx'
   config.password = 'secret'
   config.environment = :sandbox
 end

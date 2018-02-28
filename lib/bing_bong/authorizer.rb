@@ -15,6 +15,7 @@ module BingBong
       self.client_id = client_id
       self.load_token = nil
       self.save_token = nil
+      yield self if block_given?
     end
 
     def auth_url
