@@ -8,6 +8,8 @@ can still serve a purpose.
 
 This gem is made purely out of frustration working with the Bing API.
 
+**DISCLAIMER:** Do not try this at home.
+
 ## Installation
 
 Add this line to your application's Gemfile:
