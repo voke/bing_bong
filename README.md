@@ -30,7 +30,7 @@ Authentication with a OAuth is not supported in sandbox so we fallback to userna
 bing = BingBong::Client.new do |config|
   config.auth_token = nil # Not supported in sandbox
   config.account_id = 12345
-  config.customer_id = 12345
+  config.customer_id = 1337
   config.developer_token = 'BBD37VB98'
   config.username = 'johndoe'
   config.password = 'secret'
@@ -38,7 +38,7 @@ bing = BingBong::Client.new do |config|
 end
 
 campaign_srv = bing.service(:campaign_management_service, :v11)
-message = { 'AccountId' => 135122006 }
+message = { 'AccountId' => 12345 }
 response = campaign_srv.call(:get_campaigns_by_account_id, message: message)
 
 p response.body
