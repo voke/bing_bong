@@ -1,4 +1,6 @@
 
+![BingBong](https://raw.githubusercontent.com/voke/bing_bong/master/bingbong.png)
+
 # BingBong
 
 I guess they're right. Bing Ads, although slow and dangerous behind the wheel,
