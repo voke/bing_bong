@@ -31,11 +31,12 @@ module BingBong
     end
 
     def access_token
-      if current_token
-        current_token.expired? ? regenerate_token : current_token['access_token']
-      else
+      if !current_token
         promt_user_for_code
+      elsif current_token.expired?
+        regenerate_token
       end
+      current_token['access_token']
     end
 
     protected
@@ -75,7 +76,10 @@ module BingBong
     end
 
     def regenerate_token
-      request_token_by_refresh_token(current_token['refresh_token'])
+      if payload = request_token_by_refresh_token(current_token['refresh_token'])
+        token = Token.new(payload)
+        save_to_storage(token)
+      end
     end
 
     def request_token_by_code(code)
