@@ -35,8 +35,8 @@ module BingBong
       Savon.client(
         soap_header: default_headers,
         wsdl: wsdl_url,
-        log_level: :debug,
-        log: true,
+        log_level: config.debug ? :debug : :info,
+        log: !!config.debug,
         pretty_print_xml: true
       )
     end

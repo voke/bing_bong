@@ -2,7 +2,7 @@ module BingBong
   class Configuration
 
     attr_accessor :account_id, :customer_id, :environment,
-      :developer_token, :username, :password, :auth_token
+      :developer_token, :username, :password, :auth_token, :debug
 
     def initialize
       self.auth_token = ENV['BING_AUTH_TOKEN']
