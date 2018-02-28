@@ -52,7 +52,7 @@ require 'redis'
 require 'json'
 
 client_id = '000000001234A123'
-auth = BingBong::Authorization.new(client_id)
+auth = BingBong::Authorizer.new(client_id)
 
 DB = Redis.new
 
