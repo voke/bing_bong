@@ -1,9 +1,12 @@
+
+gem 'savon', '2.11.2'
+
 require 'savon'
 
 module BingBong
   class Service < SimpleDelegator
 
-    DEFAULT_VERSION = :v11
+    DEFAULT_VERSION = :v12
     DEFAULT_ENVIRONMENT = :development
 
     attr_accessor :name, :version, :config
@@ -18,7 +21,7 @@ module BingBong
     # http://msdn.microsoft.com/en-US/library/bing-ads-overview-account-customer-identifiers.aspx
     def default_headers
       {
-        'tns:AuthenticationToken' => config.auth_token,
+        'tns:AuthenticationToken' => config.access_token,
         'tns:CustomerAccountId' => config.account_id,
         'tns:CustomerId' => config.customer_id,
         'tns:DeveloperToken' => config.developer_token,
@@ -29,6 +32,20 @@ module BingBong
 
     def wsdl_url
       Endpoint.get(name, config.environment)
+    end
+
+    # Detect the AuthenticationTokenExpired (109) error code.
+    # This will allow user to refresh the access token automatically.
+    def call(*args)
+      super
+    rescue Savon::SOAPFault => e
+      payload = e.to_hash[:fault]
+      errors = [payload[:detail][:ad_api_fault_detail][:errors][:ad_api_error]]
+      if errors.any? { |err| err[:code].to_i == 109 }
+        raise BingBong::TokenExpiredError
+      else
+        raise e
+      end
     end
 
     def instantiate_client

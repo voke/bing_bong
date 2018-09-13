@@ -1,19 +1,22 @@
 class Endpoint
 
   ENDPOINTS = {
-    production: {
-      customer_management_service: 'https://clientcenter.api.bingads.microsoft.com/Api/CustomerManagement/v11/CustomerManagementService.svc?singleWsdl',
-      campaign_management_service: 'https://campaign.api.bingads.microsoft.com/Api/Advertiser/CampaignManagement/v11/CampaignManagementService.svc?singleWsdl'
+    customer_management_service: {
+      production: "https://clientcenter.api.bingads.microsoft.com/Api/CustomerManagement/v12/CustomerManagementService.svc?wsdl",
+      sandbox: "https://clientcenter.api.sandbox.bingads.microsoft.com/Api/CustomerManagement/v12/CustomerManagementService.svc?wsdl"
     },
-    sandbox: {
-      customer_management_service: 'https://clientcenter.api.sandbox.bingads.microsoft.com/Api/CustomerManagement/v11/CustomerManagementService.svc?singleWsdl',
-      campaign_management_service: 'https://campaign.api.sandbox.bingads.microsoft.com/Api/Advertiser/CampaignManagement/v11/CampaignManagementService.svc?singleWsdl'
+    campaign_management_service: {
+      production: 'https://campaign.api.bingads.microsoft.com/Api/Advertiser/CampaignManagement/v12/CampaignManagementService.svc?wsdl',
+      sandbox: 'https://campaign.api.sandbox.bingads.microsoft.com/Api/Advertiser/CampaignManagement/v12/CampaignManagementService.svc?wsdl'
     }
   }
 
-  def self.get(service_name, env)
-    env = ENDPOINTS[env.to_sym] || raise(ArgumentError, "Invalid environment: #{env.inspect}. Supported: #{ENDPOINTS.keys.join(',')}")
-    env[service_name.to_sym] || raise(ArgumentError, "Invalid service: #{service_name}.")
+  def self.get(service_name, environment)
+    ENDPOINTS.fetch(service_name.to_sym) do
+      raise(ArgumentError, "Invalid service: #{service_name}.")
+    end.fetch(environment.to_sym) do
+      raise(ArgumentError, "Invalid environment: #{environment.inspect}.")
+    end
   end
 
 end

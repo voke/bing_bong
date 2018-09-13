@@ -1,16 +1,18 @@
 module BingBong
   class Client
 
+    DEFAULT_VERSION = :v12
+
     def initialize
       yield config
     end
 
     def config
-      @configuration ||= BingBong::Configuration.new
+      @config ||= BingBong::Configuration.new
     end
 
-    def service(name, version = :v11)
-      BingBong::Service.new(name, config, version)
+    def service(name, overrides = {})
+      BingBong::Service.new(name, config.merge(overrides), config.version)
     end
 
   end

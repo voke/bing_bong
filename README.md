@@ -3,12 +3,7 @@
 
 # BingBong
 
-I guess they're right. Bing Ads, although slow and dangerous behind the wheel,
-can still serve a purpose.
-
-This gem is made purely out of frustration working with the Bing API.
-
-**DISCLAIMER:** Do not try this at home.
+Small wrapper for the Bing Ads API.
 
 ## Installation
 
@@ -28,7 +23,7 @@ Authentication with a OAuth is not supported in sandbox so we fallback to userna
 
 ```ruby
 bing = BingBong::Client.new do |config|
-  config.auth_token = nil # Not supported in sandbox
+  config.access_token = nil # Not supported in sandbox
   config.account_id = 12345
   config.customer_id = 1337
   config.developer_token = 'BBD37VB98'
@@ -60,7 +55,7 @@ auth.load_token = -> { JSON.parse(DB.get('bingtoken') || '{}') }
 auth.save_token = -> token { DB.set('bingtoken', JSON.dump(token)) }
 
 bing = BingBong::Client.new do |config|
-  config.auth_token = auth.access_token
+  config.access_token = auth.access_token
   config.account_id = 123
   config.customer_id = 456
   config.developer_token = '<DEVELOPER_TOKEN>'
