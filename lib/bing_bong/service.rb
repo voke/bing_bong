@@ -1,17 +1,13 @@
-
-gem 'savon', '2.11.2'
-
 require 'savon'
 
 module BingBong
   class Service < SimpleDelegator
 
-    DEFAULT_VERSION = :v12
     DEFAULT_ENVIRONMENT = :development
 
     attr_accessor :name, :version, :config
 
-    def initialize(name, config, version = DEFAULT_VERSION)
+    def initialize(name, config)
       self.name = name
       self.version = version
       self.config = config
