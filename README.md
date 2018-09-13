@@ -3,7 +3,7 @@
 
 # BingBong
 
-Small wrapper for the Bing Ads API.
+Small wrapper for the Bing Ads API. __This is work in progress!__
 
 ## Installation
 
@@ -32,35 +32,12 @@ bing = BingBong::Client.new do |config|
   config.environment = :sandbox
 end
 
-campaign_srv = bing.service(:campaign_management_service, :v11)
+campaign_srv = bing.service(:campaign_management_service)
 message = { 'AccountId' => 12345 }
 response = campaign_srv.call(:get_campaigns_by_account_id, message: message)
 
 p response.body
 
-```
-
-### Production
-
-```ruby
-require 'redis'
-require 'json'
-
-client_id = '000000001234A123'
-auth = BingBong::Authorizer.new(client_id)
-
-DB = Redis.new
-
-auth.load_token = -> { JSON.parse(DB.get('bingtoken') || '{}') }
-auth.save_token = -> token { DB.set('bingtoken', JSON.dump(token)) }
-
-bing = BingBong::Client.new do |config|
-  config.access_token = auth.access_token
-  config.account_id = 123
-  config.customer_id = 456
-  config.developer_token = '<DEVELOPER_TOKEN>'
-  config.environment = :production
-end
 ```
 
 ## License
