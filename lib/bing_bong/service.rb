@@ -36,7 +36,8 @@ module BingBong
       super
     rescue Savon::SOAPFault => e
       payload = e.to_hash[:fault]
-      errors = [payload[:detail][:ad_api_fault_detail][:errors][:ad_api_error]]
+      entries = payload.dig(:detail, :ad_api_fault_detail, :errors, :ad_api_error) || []
+      errors = [entries].flatten(1)
       if errors.any? { |err| err[:code].to_i == 109 }
         raise BingBong::TokenExpiredError
       else
